@@ -37,11 +37,24 @@ class Query(models.Model):
     def __unicode__(self):
         return self.queryString
 
+class Paper(models.Model):
+    paperID = models.AutoField(primary_key=True) #Could change this to the API's document id, I do not know the format and/or constraint of that
+    title = models.CharField()
+    authors = models.CharField()
+    abstract = models.CharField()
+    publishDate = models.DateField()
+    paperUrl = models.URLField()
+        #Did not implement the the relevance fields as they are referred in the review
+        #In fact the same document could be relevant or not relevant for different reviews
+    
+    def __unicode__(self):
+        return self.title
+
 class Review(models.Model):
     reviewID = models.AutoField(primary_key=True)
     researcher = models.ForeignKey(Researcher) #The user reviewing
     query = models.ForeignKey(Query) #The query we are resolving
-    documentID = models.IntegerField() #The document ID as given from the API
+    paperID = models.ForeignKey(Paper) #This refers tothe paper table
     poolNumber = (
         (1,'API Level'),
         (2,'Abstract-Title level'),

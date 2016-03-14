@@ -1,8 +1,24 @@
-/* Text Styles */
-
 /* Main Styles */
 body {
     background-color: #EEEEEE;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 300;
+    color: #222222;
+}
+
+/* Text Styles */
+.main-header {
+    height: 75px;
+    width: 100%;
+    font-size: 42px;
+    font-weight: 200;
+    border-bottom: 1px solid #CCC;
+}
+.main-section-title {
+    font-size: 20px;
+    font-weight: 200;
+    padding: 15px 0;
+    color: #5B2A2A;
 }
 
 /* Mobile Navbar Styles */
@@ -42,4 +58,22 @@ body {
 #sidebar-logo {
     width: 185px;
     margin-left: 2px;
+}
+#sidebar-profile-cont {
+    min-height: 50px;
+    position: relative;
+}
+#sidebar-profile-image {
+    height: 50px;
+    width: 50px;
+    border-radius: 25px;
+}
+#sidebar-profile-name {
+    min-height: 50px;
+    width: 130px;
+    position: absolute;
+    top: 0;
+    left: 60px;
+    font-size: 18px;
+    color: white;
 }

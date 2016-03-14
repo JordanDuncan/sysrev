@@ -1,0 +1,79 @@
+/* Main Styles */
+body {
+    background-color: #EEEEEE;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 300;
+    color: #222222;
+}
+
+/* Text Styles */
+.main-header {
+    height: 75px;
+    width: 100%;
+    font-size: 42px;
+    font-weight: 200;
+    border-bottom: 1px solid #CCC;
+}
+.main-section-title {
+    font-size: 20px;
+    font-weight: 200;
+    padding: 15px 0;
+    color: #5B2A2A;
+}
+
+/* Mobile Navbar Styles */
+#mobile-navbar {
+    width: 100%;
+    height: 44px;
+    background: #b64747; /* Old browsers */
+    background: -moz-linear-gradient(top,  #b64747 0%, #a44242 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  #b64747 0%,#a44242 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  #b64747 0%,#a44242 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b64747', endColorstr='#a44242',GradientType=0 ); /* IE6-9 */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+#menu-toggle {
+    line-height: 44px;
+    font-size: 22px;
+    color: white;
+    position: relative;
+    left: 9px;
+    top: -1px;
+}
+#menu-toggle:hover {
+    text-decoration: none;
+}
+
+/* Sidebar Styles */
+#sidebar-cont {
+    margin: 30px;
+}
+.sidebar-line {
+    height: 1px;
+    width: 100%;
+    background-color: #C98D8D;
+    margin: 20px 0;
+}
+#sidebar-logo {
+    width: 185px;
+    margin-left: 2px;
+}
+#sidebar-profile-cont {
+    min-height: 50px;
+    position: relative;
+}
+#sidebar-profile-image {
+    height: 50px;
+    width: 50px;
+    border-radius: 25px;
+}
+#sidebar-profile-name {
+    min-height: 50px;
+    width: 130px;
+    position: absolute;
+    top: 0;
+    left: 60px;
+    font-size: 18px;
+    color: white;
+}

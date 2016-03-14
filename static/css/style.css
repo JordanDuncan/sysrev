@@ -1,0 +1,45 @@
+/* Text Styles */
+
+/* Main Styles */
+body {
+    background-color: #EEEEEE;
+}
+
+/* Mobile Navbar Styles */
+#mobile-navbar {
+    width: 100%;
+    height: 44px;
+    background: #b64747; /* Old browsers */
+    background: -moz-linear-gradient(top,  #b64747 0%, #a44242 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  #b64747 0%,#a44242 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  #b64747 0%,#a44242 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b64747', endColorstr='#a44242',GradientType=0 ); /* IE6-9 */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+#menu-toggle {
+    line-height: 44px;
+    font-size: 22px;
+    color: white;
+    position: relative;
+    left: 9px;
+    top: -1px;
+}
+#menu-toggle:hover {
+    text-decoration: none;
+}
+
+/* Sidebar Styles */
+#sidebar-cont {
+    margin: 30px;
+}
+.sidebar-line {
+    height: 1px;
+    width: 100%;
+    background-color: #C98D8D;
+    margin: 20px 0;
+}
+#sidebar-logo {
+    width: 185px;
+    margin-left: 2px;
+}

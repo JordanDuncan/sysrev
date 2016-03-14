@@ -7,10 +7,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% if pageTitle %}{{ pageTitle }} - {% endif %}SysRev</title>
     <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "css/simple-sidebar.css" %}" rel="stylesheet">
+    <link href="{% static "css/style.css" %}" rel="stylesheet">
 </head>
 <body>
-    {% block body_block %}{% endblock %}
+    <div id="mobile-navbar" class="visible-xs-block">
+        <a href="#menu-toggle" class="glyphicon glyphicon-menu-hamburger" id="menu-toggle"></a>
+    </div>
+    <div id="wrapper">
+        <div id="sidebar-wrapper">
+            <div id="sidebar-cont">
+                <img id="sidebar-logo" src="{% static "img/sidebarLogo.png" %}">
+                <div class="sidebar-line"></div>
+            </div>
+        </div>
+
+
+        <div id="page-content-wrapper">
+            {% block body_block %}{% endblock %}
+        </div>
+
+    </div>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="{% static "js/bootstrap.min.js" %}"></script>
+    <script>
+        $("#menu-toggle").click(function(e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+    </script>
 </body>
 </html>

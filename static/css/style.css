@@ -10,6 +10,7 @@ body {
 .main-header {
     height: 75px;
     width: 100%;
+    margin-top: -5px;
     font-size: 42px;
     font-weight: 200;
     border-bottom: 1px solid #CCC;
@@ -19,6 +20,14 @@ body {
     font-weight: 200;
     padding: 15px 0;
     color: #5B2A2A;
+}
+
+/* Image Styles */
+.profile-image {
+    height: 48px;
+    width: 48px;
+    border-radius: 25px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 /* Mobile Navbar Styles */
@@ -47,7 +56,7 @@ body {
 
 /* Sidebar Styles */
 #sidebar-cont {
-    margin: 30px;
+    margin: 25px;
 }
 .sidebar-line {
     height: 1px;
@@ -57,23 +66,61 @@ body {
 }
 #sidebar-logo {
     width: 185px;
-    margin-left: 2px;
+    margin-left: 7px;
 }
 #sidebar-profile-cont {
     min-height: 50px;
     position: relative;
-}
-#sidebar-profile-image {
-    height: 50px;
-    width: 50px;
-    border-radius: 25px;
+    margin-bottom: 20px;
 }
 #sidebar-profile-name {
     min-height: 50px;
     width: 130px;
     position: absolute;
     top: 0;
-    left: 60px;
+    left: 58px;
     font-size: 18px;
     color: white;
 }
+#sidebar-profile-name div {
+    font-size: 12px;
+    color: #BBB;
+    margin: 2px 0;
+}
+.sidebar-profile-button {
+    height: 30px;
+    width: 200px;
+    border: 1px solid #C98D8D;
+    border-radius: 5px;
+    color: white;
+    line-height: 28px;
+    font-size: 16px;
+    font-weight: 200;
+    text-align: center;
+    position: relative;
+    transition: all 0.1s;
+    cursor: hand;
+    cursor: pointer;
+}
+    .sidebar-profile-button:hover {
+        border: 1px solid white;
+        background-color: white;
+        color: #a44242;
+        top: -1px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    .sidebar-profile-button:not(:first-child) {
+        margin-top: 10px;
+    }
+.sidebar-menu-item {
+    height: 40px;
+    width: 200px;
+    line-height: 40px;
+    font-size: 28px;
+    font-weight: 300;
+    text-align: right;
+    color: white;
+}
+    .sidebar-menu-item:not(:first-child) {
+        margin-top: 10px;
+    }

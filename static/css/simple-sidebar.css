@@ -26,11 +26,7 @@
     height: 100%;
     margin-left: -250px;
     overflow-y: auto;
-    background: #b64747; /* Old browsers */
-    background: -moz-linear-gradient(left,  #b64747 0%, #a44242 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(left,  #b64747 0%,#a44242 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to right,  #b64747 0%,#a44242 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b64747', endColorstr='#a44242',GradientType=1 ); /* IE6-9 */
+    background: #a44242; /* Old browsers */
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
@@ -111,6 +107,10 @@
 
     #sidebar-wrapper {
         width: 250px;
+        background: -moz-linear-gradient(left,  #b64747 0%, #a44242 100%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(left,  #b64747 0%,#a44242 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to right,  #b64747 0%,#a44242 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b64747', endColorstr='#a44242',GradientType=1 ); /* IE6-9 */
     }
 
     #wrapper.toggled #sidebar-wrapper {

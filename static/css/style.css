@@ -21,6 +21,12 @@ body {
     padding: 15px 0;
     color: #5B2A2A;
 }
+.text-green {
+    color: #6B9375;
+}
+.text-red {
+    color: #8C5353;
+}
 
 /* Image Styles */
 .profile-image {
@@ -124,3 +130,11 @@ body {
     .sidebar-menu-item:not(:first-child) {
         margin-top: 10px;
     }
+
+
+.cont-image-offset {
+    margin-right: 63px;
+    position: relative;
+    left: 63px;
+    top: -48px;
+}

@@ -17,8 +17,8 @@
     <div id="wrapper">
         <div id="sidebar-wrapper">
             <div id="sidebar-cont">
-                <img id="sidebar-logo" src="{% static "img/sidebarLogo.png" %}">
-                <div class="sidebar-line"></div>
+                <img id="sidebar-logo" class="hidden-xs" src="{% static "img/sidebarLogo.png" %}">
+                <div class="sidebar-line hidden-xs"></div>
                 <div id="sidebar-profile-cont">
                     <img id="sidebar-profile-image" class="profile-image" src="http://lorempixel.com/300/300">
                     <div id="sidebar-profile-name"><div>Logged in as</div>[first] [last]</div>
@@ -42,6 +42,15 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="{% static "js/bootstrap.min.js" %}"></script>
     <script>
+        var checkSidebar = false;
+        $( window ).resize(function() {
+            if (!checkSidebar && $( window ).width() < 768) checkSidebar = true;
+            else if (checkSidebar && $( window ).width() >= 768 && $("#wrapper").hasClass("toggled")) {
+                $("#wrapper").toggleClass("toggled");
+                checkSidebar = false;
+            }
+        });
+
         $("#menu-toggle").click(function(e) {
             e.preventDefault();
             $("#wrapper").toggleClass("toggled");

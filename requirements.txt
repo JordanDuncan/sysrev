@@ -1,0 +1,2 @@
+biopython==1.66
+Django==1.9.2

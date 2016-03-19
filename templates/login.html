@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<!-- This is the default tangowithdjango view, we need to change it with our template / view-->
+<html>
+    <head>
+        <!-- Is anyone getting tired of repeatedly entering the header over and over?? -->
+        <title>Welcome to Sysrev</title>
+    </head>
+
+    <body>
+        <h1>Login to your account</h1>
+
+        <form id="login_form" method="post" action="/sysrev/login/">
+            {% csrf_token %}
+            Username: <input type="text" name="username" value="" size="50" />
+            <br />
+            Password: <input type="password" name="password" value="" size="50" />
+            <br />
+
+            <input type="submit" value="submit" />
+        </form>
+
+    </body>
+</html>

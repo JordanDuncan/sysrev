@@ -6,12 +6,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Login - SysRev</title>
+    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
     <link href="{% static "css/login.css" %}" rel="stylesheet">
 </head>
 <body>
-    <div id="wrap">
+    <div class="container">
+        <center><img id="main-logo" src="{% static "img/sidebarLogo.png" %}"></center>
+        <div id="wrap">
+            <div class="main-header">
+                <div class="col-md-12">Login</div>
+            </div>
+            <form id="login_form" method="post" action="/">
+                {% csrf_token %}
+                Username: <input type="text" name="username" value="" size="50" />
+                <br />
+                Password: <input type="password" name="password" value="" size="50" />
+                <br />
 
+                <input type="submit" value="submit" />
+            </form>
+        </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="{% static "js/bootstrap.min.js" %}"></script>
 </body>
 </html>

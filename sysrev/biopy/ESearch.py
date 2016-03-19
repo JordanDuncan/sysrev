@@ -79,6 +79,8 @@ def spell_check(query):
     return spell_check_info
 
 
+
+
 # For tests
 
 
@@ -92,7 +94,7 @@ if __name__ == '__main__':
     # ids = fetchIDs(webenv,querykey)
     # docSummaries = doc_summaries(id_list)
     count = search_record_count('cancer')
-    # spell_check_info = spellCheck('(adhd OR addh OR adhs) AND (child OR adolescent) AND (acupuncture)')
+    #spell_check_info = spell_check('cancer OR feever')
     # print papers
     # for i, paper in enumerate(papers):
     # print("%d) %s" % (i+1, paper['MedlineCitation']))
@@ -101,6 +103,6 @@ if __name__ == '__main__':
     import json
 
     for index in range(10):
-        print(json.dumps(papers[index]['MedlineCitation']['Article']['ArticleTitle'], indent=2, separators=(',', ':')))
-        # print(json.dumps(papers[index]['MedlineCitation']['Article']['Abstract']['AbstractText'], indent=2, separators=(',', ':')))
+        #print(json.dumps(spell_check_info, indent=2, separators=(',', ':')))
+        print(json.dumps(papers[index]['MedlineCitation'], indent=2, separators=(',', ':')))
         # print(json.dumps(papers[index]['MedlineCitation']['Article']['AuthorList'], indent=2, separators=(',', ':')))

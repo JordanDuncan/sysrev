@@ -55,3 +55,8 @@ Basic Data Flow
 
 
 8. Links
+
+<div class="list-group-item">
+                                    <h4 class="list-group-item-heading"><a href="{{ result.link }}">{{ result.title }}</a></h4>
+                                    <p class="list-group-item-text">{{ result.summary }}</p>
+                                </div>

@@ -15,3 +15,7 @@ def newSearch(request):
 def searchResults(request):
     context_dict = { "page_title" : "Search Results" }
     return render(request, "searchResults.html", context_dict)
+
+def review(request):
+    context_dict = { "page_title" : "Review" }
+    return render(request, "review.html", context_dict)

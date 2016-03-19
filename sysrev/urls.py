@@ -7,4 +7,5 @@ urlpatterns = [
     url(r'^dashboard/$', views.dashboard),
     url(r'^search/$', views.newSearch),
     url(r'^search/results', views.searchResults),
+    url(r'^review/$', views.review),
 ]

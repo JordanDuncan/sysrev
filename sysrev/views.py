@@ -5,6 +5,16 @@ from django.contrib.auth.decorators import login_required
 
 from sysrev.forms import UserForm, UserProfileForm
 
+# Custom login required decorator
+def auth(function):
+    def wrapper(request, *args, **kw):
+        user=request.user
+        if not (user.id and request.session.get('code_success')):
+            return HttpResponseRedirect('/login/')
+        else:
+            return function(request, *args, **kw)
+    return wrapper
+
 def index(request):
     context_dict = { "page_title" : "Index" }
     return render(request, "login.html", context_dict)
@@ -12,10 +22,6 @@ def index(request):
 def login(request):
     context_dict = { "page_title" : "Login" }
     return render(request, "login.html", context_dict)
-
-def dashboard(request):
-    context_dict = { "page_title" : "Dashboard" }
-    return render(request, "index.html", context_dict)
 
 def register(request):
 
@@ -108,7 +114,7 @@ def user_login(request):
     else:
         # No context variables to pass to the template system, hence the
         # blank dictionary object...
-        return render(request, 'sysrev/login.html', {})
+        return render(request, 'login.html', {})
 
 # Use the login_required() decorator to ensure only those logged in can access the view.
 @login_required
@@ -118,6 +124,11 @@ def user_logout(request):
 
     # Take the user back to the homepage.
     return HttpResponseRedirect('/sysrev/')
+
+@auth
+def dashboard(request):
+    context_dict = { "page_title" : "Dashboard" }
+    return render(request, "dashboard.html", context_dict)
 
 def newSearch(request):
     context_dict = { "page_title" : "Seaches" }

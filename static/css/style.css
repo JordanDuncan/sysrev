@@ -19,7 +19,17 @@ body {
     font-size: 20px;
     font-weight: 200;
     padding: 15px 0;
-    color: #5B2A2A;
+    color: #8C5353;
+}
+.text-large {
+    font-size: 42px;
+    font-weight: 200;
+}
+.text-green {
+    color: #6B9375;
+}
+.text-red {
+    color: #8C5353;
 }
 
 /* Image Styles */
@@ -28,6 +38,54 @@ body {
     width: 48px;
     border-radius: 25px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* UI Element Styles */
+textarea, input { outline: none; }
+.input-large-text {
+    height: 42px;
+    font-size: 16px;
+    width: 100%;
+    padding: 0 10px;
+    margin-bottom: 10px;
+    background-color: white;
+    border: 1px solid #CCC;
+    border-radius: 5px;
+    transition: all 0.15s;
+}
+    .input-large-text:hover {
+        border: 1px solid #D3B8B8;
+    }
+    .input-large-text:focus {
+        border: 1px solid #8C5353;
+    }
+
+.button {
+    height: 42px;
+    width: auto;
+    display: inline-block;
+    padding: 6px 20px;
+    font-size: 20px;
+    font-weight: 200;
+    color: #8C5353;
+    border: 1px solid #CCC;
+    border-radius: 5px;
+    background-color: white;
+    transition: all 0.1s;
+    position: relative;
+    cursor: hand;
+    cursor: pointer;
+}
+    .button:hover {
+        top: -2px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+.button-red {
+    border: 1px solid #a44242;
+    border-radius: 5px;
+    background-color: #b64747;
+    color: white;
 }
 
 /* Mobile Navbar Styles */
@@ -124,3 +182,11 @@ body {
     .sidebar-menu-item:not(:first-child) {
         margin-top: 10px;
     }
+
+
+.cont-image-offset {
+    margin-right: 63px;
+    position: relative;
+    left: 63px;
+    top: -48px;
+}

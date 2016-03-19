@@ -14,9 +14,14 @@
         <center><img id="main-logo" src="{% static "img/sidebarLogo.png" %}"></center>
         <div id="wrap">
             <div class="main-header">
-                <div class="col-md-12">Login</div>
+                <div class="col-md-12">Login{% if user.is_authenticated %}
+hello {{ user.username }}
+{% else %}
+hello naw
+{% endif %}</div>
+
             </div>
-            <form id="login_form" method="post" action="/">
+            <form id="login_form" method="post" action="/login/">
                 {% csrf_token %}
                 Username: <input type="text" name="username" value="" size="50" />
                 <br />

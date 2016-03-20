@@ -25,7 +25,7 @@ class Researcher(models.Model):
     picture = models.ImageField(upload_to='profile_images', blank=True)
 
     def __unicode__(self):
-        return self.User.username
+        return self.user.username
 
 class Paper(models.Model):
     paperID = models.CharField(max_length=12,unique=True,primary_key=True) #Could change this to the API's document id, I do not know the format and/or constraint of that

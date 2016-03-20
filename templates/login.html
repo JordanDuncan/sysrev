@@ -14,22 +14,19 @@
         <center><img id="main-logo" src="{% static "img/sidebarLogo.png" %}"></center>
         <div id="wrap">
             <div class="main-header">
-                <div class="col-md-12">Login{% if user.is_authenticated %}
-hello {{ user.username }}
-{% else %}
-hello naw
-{% endif %}</div>
-
+                <div class="col-md-12">Login</div>
             </div>
-            <form id="login_form" method="post" action="/login/">
-                {% csrf_token %}
-                Username: <input type="text" name="username" value="" size="50" />
-                <br />
-                Password: <input type="password" name="password" value="" size="50" />
-                <br />
+            <div id="inner">
+                <form id="login_form" method="post" action="/login/">
+                    {% csrf_token %}
+                    Username: <input type="text" class="input-small-text" name="username" value="" size="50" />
+                    <br />
+                    Password: <input type="password" class="input-small-text" name="password" value="" size="50" />
+                    <br />
 
-                <input type="submit" value="submit" />
-            </form>
+                    <input type="submit" class="button button-red" value="Log In" />
+                </form>
+            </div>
         </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

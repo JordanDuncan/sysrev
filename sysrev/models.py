@@ -6,9 +6,9 @@ from django.db import models
 class Researcher(models.Model):
     user = models.OneToOneField(User) #extending the user model used for authentication
     #this already contains Username, Password and Email
-    lastViewed = models.DateTimeField()
-    forename = models.CharField(max_length=128)
-    surname = models.CharField(max_length=128)
+    lastViewed = models.DateTimeField(auto_now_add=True)
+    #forename = models.CharField(max_length=128)
+    #surname = models.CharField(max_length=128)
     insSelection = (
         ('UOG', 'University of Glasgow'),
         ('GCU', 'Glasgow Caledonian University'),
@@ -20,7 +20,9 @@ class Researcher(models.Model):
         ('CAM', 'Cambridge University'),
         ('OTH', 'Other'),
     )
+
     institution = models.CharField(max_length=3, choices=insSelection)
+    picture = models.ImageField(upload_to='profile_images', blank=True)
 
     def __unicode__(self):
         return self.User.username

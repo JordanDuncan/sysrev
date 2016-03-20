@@ -5,6 +5,8 @@ from django.contrib.auth.decorators import login_required
 
 from sysrev.forms import UserForm, UserProfileForm
 
+from sysrev.biopy.ESearch import search as pub_search
+
 # Custom login required decorator
 def auth(function):
     def wrapper(request, *args, **kw):
@@ -131,7 +133,20 @@ def dashboard(request):
     return render(request, "dashboard.html", context_dict)
 
 def newSearch(request):
+
+    result_list = []
+
+    if request.method == 'POST':
+        query = request.POST['query'].strip()
+
+        if query:
+
+            result_list = pub_search(query)
+
+
+
     context_dict = { "page_title" : "Searches" }
+
     return render(request, "newSearch.html", context_dict)
 
 def searchResults(request):

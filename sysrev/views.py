@@ -88,8 +88,11 @@ def dashboard(request):
     return render(request, "dashboard.html", context_dict)
 
 def newSearch(request):
-    context_dict = { "page_title" : "Seaches" }
-    return render(request, "newSearch.html", context_dict)
+    context_dict = { "page_title" : "Searches" }
+    if request.method == 'POST':
+        print request.POST.get('query')
+    else:
+        return render(request, "newSearch.html", context_dict)
 
 def searchResults(request):
     context_dict = { "page_title" : "Search Results" }

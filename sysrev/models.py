@@ -34,8 +34,8 @@ class Paper(models.Model):
     abstract = models.CharField(max_length=4096)
     publishDate = models.DateField()
     paperUrl = models.URLField()
-    documentApproved = models.BooleanField()
-    abstractApproved = models.BooleanField()
+    documentApproved = models.BooleanField(default = None)
+    abstractApproved = models.BooleanField(default = None)
         #Did not implement the the relevance fields as they are referred in the review
         #In fact the same document could be relevant or not relevant for different reviews
 
@@ -67,5 +67,5 @@ class Review(models.Model):
         (3,'Document level'),
         (4,'Result level'),
     )
-    relevant = models.BooleanField()
+    relevant = models.BooleanField(default = None)
     notes = models.CharField(max_length=4096)

@@ -27,8 +27,25 @@ class Researcher(models.Model):
     def __unicode__(self):
         return self.User.username
 
+
+
+class Query(models.Model):
+    queryID = models.AutoField(primary_key=True)
+    researcher = models.ForeignKey(Researcher) #The user that made the request
+    queryString = models.CharField(max_length=512)
+    title = models.CharField(max_length=128) #Optionally specified by the user
+    description = models.CharField(max_length=1024) #Optionally specified by the user
+    poolSize = models.IntegerField() #Optionally specified by the user
+    startDate = models.DateTimeField(auto_now_add=True) #Timestamp
+    resolved = models.BooleanField(default=False)
+    result = models.CharField(max_length=2048) #an array containing documents IDs
+
+    def __unicode__(self):
+        return self.queryString
+
 class Paper(models.Model):
     paperID = models.CharField(max_length=12,unique=True,primary_key=True) #Could change this to the API's document id, I do not know the format and/or constraint of that
+    queryID = models.ForeignKey(Query,default='0')
     title = models.CharField(max_length=512)
     authors = models.CharField(max_length=512)
     abstract = models.CharField(max_length=4096)
@@ -41,21 +58,6 @@ class Paper(models.Model):
 
     def __unicode__(self):
         return self.title
-
-class Query(models.Model):
-    queryID = models.AutoField(primary_key=True)
-    paperID = models.ForeignKey(Paper) #This refers tothe paper table
-    researcher = models.ForeignKey(Researcher) #The user that made the request
-    queryString = models.CharField(max_length=512)
-    title = models.CharField(max_length=128) #Optionally specified by the user
-    description = models.CharField(max_length=1024) #Optionally specified by the user
-    poolSize = models.IntegerField() #Optionally specified by the user
-    startDate = models.DateTimeField(auto_now_add=True) #Timestamp
-    resolved = models.BooleanField(default=False)
-    result = models.CharField(max_length=2048) #an array containing documents IDs
-
-    def __unicode__(self):
-        return self.queryString
 
 class Review(models.Model):
     reviewID = models.AutoField(primary_key=True)

@@ -5,7 +5,9 @@ from django.contrib.auth.decorators import login_required
 
 from sysrev.forms import UserForm, UserProfileForm
 
-from sysrev.biopy.ESearch import search as pub_search
+from sysrev.biopy.get_data import run_query
+from sysrev.models import Paper
+from sysrev.models import Query
 
 # Custom login required decorator
 def auth(function):
@@ -97,8 +99,20 @@ def newSearch(request):
         query = request.POST['query'].strip()
 
         if query:
+            result_list = run_query(query)
+            obtained_ids = result_list.keys()
+            new_query = Query(queryString=query,result=obtained_ids)
+            n = 0
+            for item in result_list:
+                new_paper = Paper(paperID=obtained_ids[n],paperUrl=item['Link'],authors=item['Authors'],
+                                  title=item['Article_title'],publishDate=item['Date_created'],
+                                  abstract=item['Abstrct'], queryID=new_query.queryID)
+                new_paper.save()
+                n +=1
 
-            result_list = pub_search(query)
+            new_query.save()
+
+
 
 
 

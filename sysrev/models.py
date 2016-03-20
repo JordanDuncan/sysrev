@@ -26,7 +26,7 @@ class Researcher(models.Model):
 
     def __unicode__(self):
         return self.user.username
-
+    
 class Query(models.Model):
     queryID = models.AutoField(primary_key=True)
     researcher = models.ForeignKey(Researcher) #The user that made the request
@@ -56,8 +56,6 @@ class Paper(models.Model):
 
     def __unicode__(self):
         return self.title
-
-
 
 class Review(models.Model):
     reviewID = models.AutoField(primary_key=True)

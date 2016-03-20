@@ -20,7 +20,9 @@ class Researcher(models.Model):
         ('CAM', 'Cambridge University'),
         ('OTH', 'Other'),
     )
+
     institution = models.CharField(max_length=3, choices=insSelection)
+    picture = models.ImageField(upload_to='profile_images', blank=True)
 
     def __unicode__(self):
         return self.User.username

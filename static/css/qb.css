@@ -1,0 +1,51 @@
+.qb-wrap {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+}
+.qb-in-wrap {
+    position: relative;
+}
+    .qb-in-wrap input {
+        height: 42px;
+        width: 100%;
+        padding: 0 160px 0 10px;
+        font-size: 16px;
+        background-color: white;
+        border: 1px solid #CCC;
+        border-radius: 5px;
+        transition: all 0.15s;
+    }
+    .qb-in-wrap button {
+        height: 42px;
+        width: 50px;
+        margin: 0 0 0 -5px;
+        position: absolute;
+        top: 0px;
+        font-size: 16px;
+        background-color: white;
+        border: 1px solid #CCC;
+        border-radius: 0;
+        transition: all 0.15s;
+    }
+    .qb-in-wrap button:hover {
+        border: 1px solid #8C5353;
+        z-index: 10;
+    }
+        .qb-in-wrap button.and {
+            right: 98px;
+        }
+        .qb-in-wrap button.or {
+            right: 49px;
+        }
+        .qb-in-wrap button.not {
+            right: 0px;
+        }
+    .qb-in-wrap button:last-child {
+        border-radius: 0 5px 5px 0;
+    }
+.qb_label {
+    padding: 10px;
+    font-size: 16px;
+    font-weight: 400;
+}

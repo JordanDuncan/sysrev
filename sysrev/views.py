@@ -292,6 +292,9 @@ def ajax_review(request):
             # if abstract review stage, abstractApproved, else documentApproved and create new Review object
             if paper.abstractApproved == False:
                 paper.abstractApproved = True
+
+                if not relevant:
+                    paper.delete()
             else:
                 paper.documentApproved = True
 

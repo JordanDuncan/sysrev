@@ -105,7 +105,11 @@
     }
 
     function qb_createString() {
-        console.log(qb_tripleToString(qb_jsonOut($($('#qb-main > .qb-main-child').children()[0]))));
+        var queryString = qb_tripleToString(qb_jsonOut($($('#qb-main > .qb-main-child').children()[0])));
+        $.post( "/search/", {'query' : queryString, 'csrfmiddlewaretoken' : '{{ csrf_token }}'}, function( data ) {
+          alert( data );
+        });
+        console.log();
     }
 
 </script>

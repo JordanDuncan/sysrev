@@ -44,13 +44,16 @@ def run_query(query):
 
 
         #add the abstracts
-        abstract_info = paper['MedlineCitation']['Article']['Abstract']['AbstractText']
-        abstract_text = ''
-        for section in abstract_info:
+        try:
+            abstract_info = paper['MedlineCitation']['Article']['Abstract']['AbstractText']
+            abstract_text = ''
+            for section in abstract_info:
 
-            abstract_text +=  section
+                abstract_text +=  section
 
-        paper_info['Abstract'] = abstract_text
+            paper_info['Abstract'] = abstract_text
+        except:
+            paper_info['Abstract'] = "No Abstract."
 
 
 

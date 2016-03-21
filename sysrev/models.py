@@ -25,10 +25,8 @@ class Researcher(models.Model):
     picture = models.ImageField(upload_to='profile_images', blank=True)
 
     def __unicode__(self):
-        return self.User.username
-
-
-
+        return self.user.username
+    
 class Query(models.Model):
     queryID = models.AutoField(primary_key=True)
     researcher = models.ForeignKey(Researcher) #The user that made the request

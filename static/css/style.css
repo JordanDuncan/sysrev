@@ -32,6 +32,10 @@ body {
     color: #8C5353;
 }
 
+a {
+    color: #a44242;
+}
+
 /* Image Styles */
 .profile-image {
     height: 48px;
@@ -97,6 +101,14 @@ textarea, input { outline: none; }
     border-radius: 5px;
     background-color: #b64747;
     color: white;
+}
+
+.progress {
+    transition: all 0.15s;
+}
+.progress.hidden {
+    margin-top: 20px;
+    display: none;
 }
 
 /* Mobile Navbar Styles */

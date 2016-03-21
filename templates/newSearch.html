@@ -20,13 +20,21 @@
                     </div>
                 </div>
             </div>
-            <button class="button button-red pull-right" onclick="qb_createString()">Search</button>
+            <button id="searchButton" class="button button-red pull-right" onclick="qb_createString()">Search</button>
+            <div id="progress" class="progress hidden">
+              <div class="progress-bar progress-bar-striped progress-bar-danger active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+            </div>
         </div>
     </div>
     <div class="col-md-4">
         <div class="main-section-title">SAVED SEARCHES</div>
         <div class="col-md-12">
-            hi
+            {% for q in saved_list %}
+                <p>
+                    <a href="/search/{{ q.query.queryID }}">{{ q.query.queryString }}</a><br>
+                    {{ q.size }} results
+                </p>
+            {% endfor %}
         </div>
     </div>
   </div>
@@ -105,7 +113,15 @@
     }
 
     function qb_createString() {
+        $('#searchButton').hide();
+        $('#progress').toggleClass('hidden');
         var queryString = qb_tripleToString(qb_jsonOut($($('#qb-main > .qb-main-child').children()[0])));
+
+        if (queryString.trim() == "") {
+            $('#searchButton').show();
+            $('#progress').toggleClass('hidden');
+            alert('Query String cannot be blank.')
+        }
         $.post( "/search/", {'query' : queryString, 'csrfmiddlewaretoken' : '{{ csrf_token }}'}, function( data ) {
             var data = JSON.parse(data);
             window.location.href = "/search/" + data.queryID;

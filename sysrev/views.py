@@ -115,7 +115,7 @@ def newSearch(request):
                                   paperUrl=item['Link'],
                                   authors=item['Authors'],
                                   title=item['Article_title'],
-                                  publishDate='2000-02-02',
+                                  publishDate=item['Date_completed'],
                                   abstract=item['Abstract'],
                                   queryID=new_query,
                                   abstractApproved=False,

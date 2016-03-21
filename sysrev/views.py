@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse, Http404, JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 import datetime
 from sysrev.forms import UserForm, UserProfileForm
 
@@ -122,7 +123,7 @@ def dashboard(request):
     for query in user_queries:
         reviews = Review.objects.filter(query=query, relevant=True)
         for review in reviews:
-            if review.time_stamp > request.user.researcher.lastViewed:
+            if timezone.make_aware(review.time_stamp, timezone.get_default_timezone()) > timezone.make_aware(request.user.researcher.lastViewed, timezone.get_default_timezone()):
                 relevant.append(review)
                 
     context_dict['new_relevant_reviews'] = relevant            

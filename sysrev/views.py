@@ -166,7 +166,7 @@ def searchResults(request, query_id):
 
 
     if query:
-        result_list = Paper.objects.filter(queryID=query, abstractApproved=False)
+        result_list = Paper.objects.filter(queryID=query, documentApproved=True)
 
         context_dict['status'] = "Query found"
         context_dict['query'] = query

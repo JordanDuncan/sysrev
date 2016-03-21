@@ -101,34 +101,56 @@ def newSearch(request):
         if query:
             # check to see if this query exists
             if len(Query.objects.filter(queryString__iexact=query)) != 0:
-                return HttpResponse('query already saved (redirect to results for that query)')
+                prev_query = Query.objects.get(queryString=query)
+                #return HttpResponse('query already saved (redirect to results for that query)')
+                return HttpResponse('{"queryID":'+str(prev_query.queryID)+'}')
 
             result_list = run_query(query)
             obtained_ids = result_list.keys()
-            new_query = Query(queryString=query,result=obtained_ids,poolSize=20,researcher=request.user.researcher)
+            new_query = Query(queryString=query, result=obtained_ids, poolSize=20, researcher=request.user.researcher)
             new_query.save()
 
             print new_query.queryID
             n = 0
             for key, item in result_list.iteritems():
-                new_paper = Paper(paperID=key,
-                                  paperUrl=item['Link'],
-                                  authors=item['Authors'],
-                                  title=item['Article_title'],
-                                  publishDate=item['Date_completed'],
-                                  abstract=item['Abstract'],
-                                  queryID=new_query,
-                                  abstractApproved=False,
-                                  documentApproved=False
-                                  )
+                if item['Date_completed'] == 'incomplete':
+                    new_paper = Paper(paperID=key,
+                                      paperUrl=item['Link'],
+                                      authors=item['Authors'],
+                                      title=item['Article_title'],
+                                      abstract=item['Abstract'],
+                                      queryID=new_query,
+                                      abstractApproved=False,
+                                      documentApproved=False
+                                      )
+                elif item['Date_completed'] == '':
+                    new_paper = Paper(paperID=key,
+                                      paperUrl=item['Link'],
+                                      authors=item['Authors'],
+                                      title=item['Article_title'],
+                                      abstract=item['Abstract'],
+                                      queryID=new_query,
+                                      abstractApproved=False,
+                                      documentApproved=False
+                                      )
+                else:
+                    new_paper = Paper(paperID=key,
+                                      paperUrl=item['Link'],
+                                      authors=item['Authors'],
+                                      title=item['Article_title'],
+                                      publishDate=item['Date_completed'],
+                                      abstract=item['Abstract'],
+                                      queryID=new_query,
+                                      abstractApproved=False,
+                                      documentApproved=False
+                                      )
                 new_paper.save()
-                n +=1
+                n += 1
 
+            #return HttpResponse('query saved')
+            return HttpResponse('{"queryID":'+str(new_query.queryID)+'}')
 
-
-            return HttpResponse('query saved')
-
-    context_dict = { "page_title" : "Searches" }
+    context_dict = {"page_title": "Searches"}
 
     return render(request, "newSearch.html", context_dict)
 

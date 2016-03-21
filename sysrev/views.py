@@ -93,10 +93,9 @@ def dashboard(request):
 
 def newSearch(request):
 
-    result_list = []
 
     if request.method == 'POST':
-        query = request.POST['query'].strip()
+        query = request.POST.get('query')
 
         if query:
             result_list = run_query(query)
@@ -104,6 +103,7 @@ def newSearch(request):
             new_query = Query(queryString=query,result=obtained_ids)
             n = 0
             for item in result_list:
+                print item
                 new_paper = Paper(paperID=obtained_ids[n],paperUrl=item['Link'],authors=item['Authors'],
                                   title=item['Article_title'],publishDate=item['Date_created'],
                                   abstract=item['Abstrct'], queryID=new_query.queryID)

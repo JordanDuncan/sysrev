@@ -94,6 +94,7 @@ def dashboard(request):
     context_dict = { "page_title" : "Dashboard" }
     return render(request, "dashboard.html", context_dict)
 
+@auth
 def newSearch(request):
     if request.method == 'POST':
         query = request.POST.get('query')
@@ -136,11 +137,12 @@ def newSearch(request):
 
     return render(request, "newSearch.html", context_dict)
 
-
+@auth
 def searchResults(request):
     context_dict = { "page_title" : "Search Results" }
     return render(request, "searchResults.html", context_dict)
 
+@auth
 def review(request):
     context_dict = { "page_title" : "Review" }
     return render(request, "review.html", context_dict)

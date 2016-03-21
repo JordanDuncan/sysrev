@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.contrib.auth.decorators import login_required
 
 from sysrev.forms import UserForm, UserProfileForm
@@ -134,7 +134,26 @@ def newSearch(request):
 
 
 def searchResults(request):
-    context_dict = { "page_title" : "Search Results" }
+    context_dict = {"page_title": "Search Results"}
+    try:
+        query = Query.objects.get(queryID=query_id)
+    except Query.DoesNotExist:
+        raise Http404("Query does not exist")
+
+
+    if query:
+        result_list = Paper.objects.filter(queryID=query, abstractApproved=False)
+        n = 1
+        print result_list
+        for item in result_list:
+            result_pos_string = str(n)
+            context_dict['result_'+result_pos_string+'_title'] = item.title
+            context_dict['result_'+result_pos_string+'_abstract'] = item.abstract
+            n += 1
+        context_dict['result_list'] = "Query found"
+        context_dict['query'] = query
+    else:
+        context_dict['result_list'] = "No such Query found"
     return render(request, "searchResults.html", context_dict)
 
 def review(request):

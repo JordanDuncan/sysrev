@@ -5,6 +5,10 @@ from django.contrib.auth.decorators import login_required
 
 from sysrev.forms import UserForm, UserProfileForm
 
+from sysrev.biopy.get_data import run_query
+from sysrev.models import Paper
+from sysrev.models import Query
+
 # Custom login required decorator
 def auth(function):
     def wrapper(request, *args, **kw):
@@ -91,11 +95,34 @@ def dashboard(request):
     return render(request, "dashboard.html", context_dict)
 
 def newSearch(request):
-    context_dict = { "page_title" : "Searches" }
+
+
     if request.method == 'POST':
-        print request.POST.get('query')
-    else:
-        return render(request, "newSearch.html", context_dict)
+        query = request.POST.get('query')
+
+        if query:
+            result_list = run_query(query)
+            obtained_ids = result_list.keys()
+            new_query = Query(queryString=query,result=obtained_ids)
+            n = 0
+            for item in result_list:
+                print item
+                new_paper = Paper(paperID=obtained_ids[n],paperUrl=item['Link'],authors=item['Authors'],
+                                  title=item['Article_title'],publishDate=item['Date_created'],
+                                  abstract=item['Abstrct'], queryID=new_query.queryID)
+                new_paper.save()
+                n +=1
+
+            new_query.save()
+
+
+
+
+
+    context_dict = { "page_title" : "Searches" }
+
+    return render(request, "newSearch.html", context_dict)
+
 
 def searchResults(request):
     context_dict = { "page_title" : "Search Results" }

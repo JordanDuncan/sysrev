@@ -1,0 +1,83 @@
+Dictionary data
+
+
+How data is stored in dictionaries after it has been obtained from the API servers and parsed into 
+Python dicitonaries.
+ 
+
+Below are some of the keys, that application will be using. Other keys(stored data) were found irrelevant but can still be obtained.
+
+
+
+Efetch results
+
+[MedlineCitation]
+				 [PMID]
+				 [MedlineJournalInfo]
+   				 [DateCompleted]
+   				 [MeshHeadingList]
+   				 [DateCreated]
+   				 [Article]
+   				 		  [ArticleDate]
+   				 		  [Pagination]
+   				 		  [AuthorList]
+   				 		  [Language]
+   				 		  [PublicationTypeList]
+   				 		  [Journal]
+   				 		  		   [ISSN]
+   				 		  		   [ISOAbbreviation]
+   				 		  		   [JournalIssue]
+   				 		  [Title]
+   				          [ArticleTitle]
+   				          [Abstract]
+   				 		      [AbstractText]
+   				 		  [CopyrightInformation]
+   				 [GrantList]
+[PubmedData]
+			 [ArticleIdList]
+			 [PublicationStatus]
+			 [History]
+
+
+
+Esummary results
+
+
+[Title]
+[Id]
+[source]
+[Issue]
+[ISSN]
+[Volume]
+[FullJournalName]
+[RecordStatus]
+[AuthorList]
+[PubDate]
+[ArticleIds]
+			[medline]
+			[rid]
+			[pubmed]
+[LangList]
+[HasAbstract]
+[PubTypeList]
+
+
+
+espell results
+
+[Query]
+[CorrectedQuery]
+
+
+
+
+
+eGQuery Result
+
+[Term]
+[eGQueryResult]
+			 [Count]
+			 [Status]
+			 [MenuName]
+			 [DbName]
+

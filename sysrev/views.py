@@ -38,6 +38,9 @@ def register(request):
             profile = profile_form.save(commit=False)
             profile.user = user
 
+            if 'picture' in request.FILES:
+                profile.picture = request.FILES['picture']
+
             profile.save()
 
             registered = True
@@ -119,6 +122,7 @@ def newSearch(request):
     context_dict = { "page_title" : "Searches" }
 
     return render(request, "newSearch.html", context_dict)
+
 
 def searchResults(request):
     context_dict = { "page_title" : "Search Results" }

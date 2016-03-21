@@ -45,14 +45,14 @@ class Query(models.Model):
 
 class Paper(models.Model):
     paperID = models.CharField(max_length=12,unique=True,primary_key=True) #Could change this to the API's document id, I do not know the format and/or constraint of that
-    queryID = models.ForeignKey(Query,default='0')
+    queryID = models.ForeignKey(Query) #Query foreign key
     title = models.CharField(max_length=512)
     authors = models.CharField(max_length=512)
     abstract = models.CharField(max_length=4096)
     publishDate = models.DateField()
     paperUrl = models.URLField()
-    documentApproved = models.BooleanField()
-    abstractApproved = models.BooleanField()
+    documentApproved = models.BooleanField(default = None)
+    abstractApproved = models.BooleanField(default = None)
         #Did not implement the the relevance fields as they are referred in the review
         #In fact the same document could be relevant or not relevant for different reviews
 
@@ -61,6 +61,7 @@ class Paper(models.Model):
 
 class Review(models.Model):
     reviewID = models.AutoField(primary_key=True)
+    paperID = models.ForeignKey(Paper) #This refers tothe paper table
     researcher = models.ForeignKey(Researcher) #The user reviewing
     query = models.ForeignKey(Query) #The query we are resolving
     poolNumber = (
@@ -69,5 +70,5 @@ class Review(models.Model):
         (3,'Document level'),
         (4,'Result level'),
     )
-    relevant = models.BooleanField()
+    relevant = models.BooleanField(default = None)
     notes = models.CharField(max_length=4096)

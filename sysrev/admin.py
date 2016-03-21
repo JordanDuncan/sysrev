@@ -7,4 +7,3 @@ admin.site.register(Researcher)
 admin.site.register(Query)
 admin.site.register(Paper)
 admin.site.register(Review)
-

@@ -10,10 +10,17 @@
     <div class="col-md-8">
         <div class="main-section-title">NEW SEARCH</div>
         <div class="col-md-12">
-            <form>
-                <input type="text" class="input-large-text">
-                <div class="button button-red pull-right">SUBMIT</div>
-            </form>
+            <div id="qb-main" class="qb-wrap">
+                <div id="qb-1" class="qb-main-child">
+                    <div class="qb-in-wrap">
+                        <input type="text">
+                        <button class="and" onclick="qb_and('1')">AND</button>
+                        <button class="or" onclick="qb_or('1')">OR</button>
+                        <button class="not" onclick="qb_not('1')">NOT</button>
+                    </div>
+                </div>
+            </div>
+            <button class="not" onclick="qb_createString()">cs</button>
         </div>
     </div>
     <div class="col-md-4">
@@ -24,4 +31,58 @@
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+    var qbCount = 1;
+
+    function qb_genInput() {
+        qbCount++;
+        return '<div id="qb-'+ (qbCount) +'">\
+                    <div class="qb-in-wrap">\
+                        <input type="text">\
+                        <button class="and" onclick="qb_and(\''+ (qbCount) +'\')">AND</button>\
+                        <button class="or" onclick="qb_or(\''+ (qbCount) +'\')">OR</button>\
+                        <button class="not" onclick="qb_not(\''+ (qbCount) +'\')">NOT</button>\
+                    </div>\
+                </div>';
+    }
+
+    function qb_and(inId) {
+        $('#qb-'+inId).html('<div class="qb-wrap" type="AND">'
+        + qb_genInput() +
+        '<div class="qb_label">AND <a class="glyphicon glyphicon-remove" href="javascript: qb_clear(\'' + (inId) + '\')"></a></div>'
+        + qb_genInput() +
+        '</div>');
+    }
+    function qb_or(inId) {
+        $('#qb-'+inId).html('<div class="qb-wrap">'
+        + qb_genInput() +
+        '<div class="qb_label">OR <a class="glyphicon glyphicon-remove" href="javascript: qb_clear(\'' + (inId) + '\')"></a></div>'
+        + qb_genInput() +
+        '</div>');
+    }
+    function qb_not(inId) {
+        $('#qb-'+inId).html('<div class="qb-wrap"><div class="qb_label">NOT <a class="glyphicon glyphicon-remove" href="javascript: qb_clear(\'' + (inId) + '\')"></a></div>'
+        + qb_genInput() +
+        '</div>');
+    }
+
+    function qb_clear(inId) {
+        qbCount++;
+        $('#qb-'+inId).html('<div class="qb-in-wrap">\
+            <input type="text">\
+            <button class="and" onclick="qb_and(\''+ (qbCount) +'\')">AND</button>\
+            <button class="or" onclick="qb_or(\''+ (qbCount) +'\')">OR</button>\
+            <button class="not" onclick="qb_not(\''+ (qbCount) +'\')">NOT</button>\
+        </div>').prop('id', 'qb-'+qbCount);
+    }
+
+    function qb_createString() {
+        var struct = [];
+        $('#qb-main > .qb-main-child').children().each(function () {
+            alert($(this).attr('class')); // "this" is the current element in the loop
+        });
+    }
+
+</script>
 {% endblock %}

@@ -107,7 +107,7 @@
     function qb_createString() {
         var queryString = qb_tripleToString(qb_jsonOut($($('#qb-main > .qb-main-child').children()[0])));
         $.post( "/search/", {'query' : queryString, 'csrfmiddlewaretoken' : '{{ csrf_token }}'}, function( data ) {
-          alert( data );
+          window.location.href = "/search/" + data.queryID;
         });
         console.log();
     }

@@ -111,11 +111,15 @@ def newSearch(request):
             print new_query.queryID
             n = 0
             for key, item in result_list.iteritems():
+                if item['Date_completed'] != 'incomplete':
+                    published_date = item['Date_completed']
+                else:
+                    published_date = ''
                 new_paper = Paper(paperID=key,
                                   paperUrl=item['Link'],
                                   authors=item['Authors'],
                                   title=item['Article_title'],
-                                  publishDate=item['Date_completed'],
+                                  publishDate=published_date,
                                   abstract=item['Abstract'],
                                   queryID=new_query,
                                   abstractApproved=False,

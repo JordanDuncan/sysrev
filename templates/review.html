@@ -12,20 +12,20 @@
         <div class="col-md-12" id="query">
             [query]
         </div>
-        <div class="col-md-6" id="details">
+        <div class="col-md-12" id="details">
             <h3>Paper Name</h3>
             Abstract<br>
             Abstract<br>
             Abstract<br>
             Abstract
         </div>
-        <div class="col-md-6">
+        <div class="col-md-12">
             <textarea id="notes" class="textarea-full" placeholder="Notes"></textarea>
         </div>
         <div class="col-md-12">
-            <button class="button button-red pull-right">YES</button>
-            <button class="button pull-right" style="margin-right: 10px">NO</button>
-            <button class="button pull-left">SKIP</button>
+            <button class="button button-red pull-right" onclick="review_save('1')">YES</button>
+            <button class="button pull-right" onclick="review_save('0')" style="margin-right: 10px">NO</button>
+            <button class="button pull-left" onclick="review_getNew()">SKIP</button>
             <input type="hidden" id="paperID">
             <input type="hidden" id="paperTitle">
         </div>
@@ -42,20 +42,19 @@
 <script type="text/javascript">
     function review_getNew() {
         $.get('/ajax/review', function(data){
-            $('#query').text(data.query.queryString);
-            $('#paperID').val(data.paper.paperID);
-            $('#paperTitle').val(data.paper.title);
-            if (data.paper.AbstractApproved) {
-                $('#details').html('<h3>' + data.paper.title + '</h3><a href="' + data.paper.paperUrl + '">Open Paper</a>');
+            $('#query').text(data.queryString);
+            $('#paperID').val(data.paperID);
+            $('#paperTitle').val(data.title);
+            if (data.paperUrl) {
+                $('#details').html('<h3>' + data.title + '</h3><a href="' + data.paperUrl + '">Open Paper</a>');
             } else {
-                $('#details').html('<h3>' + data.paper.title + '</h3>' + data.paper.abstract);
+                $('#details').html('<h3>' + data.title + '</h3>' + data.abstract);
             }
-
         });
     }
 
     function review_save(decision) {
-        $.post('/ajax/review', {'review': decision, 'paperID': $('#paperID').val()},function(data){
+        $.post('/ajax/review/', {'csrfmiddlewaretoken' : '{{ csrf_token }}', 'relevant': decision, 'paperID': $('#paperID').val(), 'notes': $('#notes').val()},function(data){
             if ($("#recentReviews > div").length >= 5) {
                 $("#recentReviews > div:nth-child(5)").remove();
             }
@@ -63,5 +62,7 @@
             review_getNew();
         });
     }
+
+    review_getNew();
 </script>
 {% endblock %}

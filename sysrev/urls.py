@@ -14,4 +14,6 @@ urlpatterns = [
     url(r'^search/$', views.newSearch),
     url(r'^search/([0-9])/$', views.searchResults),
     url(r'^review/$', views.review),
+
+    url(r'^ajax/review/$', views.ajax_review),
 ]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

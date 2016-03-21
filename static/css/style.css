@@ -36,6 +36,12 @@ a {
     color: #a44242;
 }
 
+#query {
+    font-size: 22px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
 /* Image Styles */
 .profile-image {
     height: 48px;

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponseRedirect, HttpResponse, Http404
+from django.http import HttpResponseRedirect, HttpResponse, Http404, JsonResponse
 from django.contrib.auth.decorators import login_required
 import datetime
 from sysrev.forms import UserForm, UserProfileForm
@@ -212,6 +212,13 @@ def searchResults(request, query_id):
 @auth
 def review(request):
     context_dict = { "page_title" : "Review" }
+
+    return render(request, "review.html", context_dict)
+
+    print paper
+
+    return HttpResponse(paper.paperID)
+
     from django.db import connection
     cursor = connection.cursor()
 
@@ -223,3 +230,68 @@ def review(request):
     queryObject = cursor.execute #The query object relative to the query
     #return render(request, "review.html", context_dict)
     return HttpResponse('{"query": %s,"paper": %s}',[queryObject],[paperObject])
+
+def ajax_review(request):
+    if request.method == "GET":
+        paper = Paper.objects.filter(documentApproved=False).order_by('?').first()
+
+        paper_return = {
+            "paperID" : paper.paperID,
+            "title" : paper.title,
+            "queryID" : paper.queryID.queryID,
+            "queryString" : paper.queryID.queryString,
+        }
+
+        if paper.abstractApproved == False:
+            paper_return['abstract'] = paper.abstract
+        else:
+            paper_return['paperUrl'] = paper.paperUrl
+
+        return JsonResponse(paper_return)
+    elif request.method == "POST":
+        paperID = request.POST.get('paperID')
+        relevantStr = request.POST.get('relevant')
+        notes = request.POST.get('notes')
+
+        relevant = False
+
+        if relevantStr:
+            if relevantStr == "1":
+                relevant = True
+            elif relevantStr == "0":
+                relevant = False
+        else:
+            return JsonResponse({"status" : "error", "error" : "relevant post parameter not set or incorrect"})
+
+        if not notes:
+            notes = ""
+
+        if paperID:
+            # get paper
+            try:
+                paper = Paper.objects.get(paperID=paperID)
+            except Paper.DoesNotExist:
+                raise JsonResponse({"status" : "error", "error" : "Paper does not exist."})
+
+            # if abstract review stage, abstractApproved, else documentApproved and create new Review object
+            if paper.abstractApproved == False:
+                paper.abstractApproved = True
+            else:
+                paper.documentApproved = True
+
+                # create review
+                r = Review(
+                    paperID=paper,
+                    researcher=request.user.researcher,
+                    query=paper.queryID,
+                    relevant=relevant,
+                    notes=notes
+                )
+                r.save()
+
+            paper.save()
+
+            return JsonResponse({"status" : "success"})
+
+        else:
+            return JsonResponse({"status" : "error", "error" : "paperID post parameter not set or incorrect"})

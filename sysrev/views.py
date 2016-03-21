@@ -7,7 +7,7 @@ from sysrev.forms import UserForm, UserProfileForm
 
 from sysrev.biopy.get_data import run_query
 from sysrev.models import Paper
-from sysrev.models import Query, Researcher
+from sysrev.models import Query, Researcher, Review
 
 # Custom login required decorator
 def auth(function):
@@ -153,6 +153,16 @@ def newSearch(request):
             return HttpResponse('{"queryID":'+str(new_query.queryID)+'}')
 
     context_dict = {"page_title": "Searches"}
+
+    query_list = Query.objects.filter(researcher=request.user.researcher).reverse()
+    saved_list = []
+
+    for q in query_list:
+        sl = { 'query' : q }
+        sl['size'] = len(Paper.objects.filter(queryID=q, documentApproved=True))
+        saved_list.append(sl)
+
+    context_dict['saved_list'] = saved_list
 
     return render(request, "newSearch.html", context_dict)
 

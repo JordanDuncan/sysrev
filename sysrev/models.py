@@ -62,6 +62,7 @@ class Review(models.Model):
     paperID = models.ForeignKey(Paper) #This refers tothe paper table
     researcher = models.ForeignKey(Researcher) #The user reviewing
     query = models.ForeignKey(Query) #The query we are resolving
+    startDate = models.DateTimeField(auto_now_add=True) #Timestamp
     poolNumber = (
         (1,'API Level'),
         (2,'Abstract-Title level'),

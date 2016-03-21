@@ -130,6 +130,11 @@ def dashboard(request):
     return render(request, "dashboard.html", context_dict)
 
 @auth
+def profile(request):
+    context_dict = { "page_title" : "Profile" }
+    return render(request, "profile.html", context_dict)
+
+@auth
 def newSearch(request):
     if request.method == 'POST':
         query = request.POST.get('query')

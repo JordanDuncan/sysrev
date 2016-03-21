@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block body_block %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="main-header">
+        <div class="col-md-12">Hi {{ user.username }}!</div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-8">
+        <div class="main-section-title">Details</div>
+        <div class="col-md-6">
+            <p>
+                <b>Name: {{ user.first_name }} {{ user.last_name }}</b><br>
+                Email: {{ user.email }}
+            </p>
+        </div>
+        <div class="col-md-6">
+            <p>
+                <b>Working for: {{ user.researcher.institution }}</b><br>
+                profile picture: <img class="profile-image" src={{ user.researcher.picture }}>
+            </p>
+        </div>
+        <div style="clear: both"></div>
+    <div class="col-md-4">
+        <div class="main-section-title">Edit</div>
+    </div>
+  </div>
+</div>
+{% endblock %}

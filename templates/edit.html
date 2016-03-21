@@ -1,0 +1,48 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Register - SysRev</title>
+    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+    <link href="{% static "css/login.css" %}" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <center><img id="main-logo" src="{% static "img/sidebarLogo.png" %}"></center>
+        <div id="wrap">
+            <div class="main-header">
+                <div class="col-md-12">Hey {{ user.first_name }}! update your info!</div>
+            </div>
+            <div id="inner">
+
+                <form id="user_form" method="post" action="/edit/"
+                        enctype="multipart/form-data">
+
+                    {% csrf_token %}
+
+                    <!-- Display each form. The as_p method wraps each element in a paragraph
+                         (<p>) element. This ensures each element appears on a new line,
+                         making everything look neater. -->
+                    {% for field in user_form %}
+                            {{ field.errors }}
+                            {{ field.label }} {{ field }}<br>
+                    {% endfor %}
+                    {% for field in profile_form %}
+                            {{ field.errors }}
+                            {{ field.label }} <br>{{ field }}<br>
+                    {% endfor %}
+
+                    <!-- Provide a button to click to submit the form. -->
+                    <input type="submit" class="button button-red" style="margin-top: 10px;" name="EDIT" value="Edit" />
+                    <div class="col-md-6 login-link"><a href="/profile/">CANCEL</a></div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="{% static "js/bootstrap.min.js" %}"></script>
+</body>
+</html>

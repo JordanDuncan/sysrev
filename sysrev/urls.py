@@ -13,5 +13,6 @@ urlpatterns = [
     url(r'^dashboard/', views.dashboard),
     url(r'^search/$', views.newSearch),
     url(r'^search/([0-9])/$', views.searchResults),
+    url(r'^profile/$', views.profile),
     url(r'^review/$', views.review),
 ]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

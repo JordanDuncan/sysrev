@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 {% block body_block %}
 <div class="container-fluid">
   <div class="row">
@@ -18,13 +19,14 @@
         <div class="col-md-6">
             <p>
                 <b>Working for: {{ user.researcher.institution }}</b><br>
-                profile picture: <img class="profile-image" src={{ user.researcher.picture }}>
+                profile picture: <img id="sidebar-profile-image" class="profile-image" src="/media/{{ user.researcher.picture }}" onerror="if (this.src != '{% static "img/user.png" %}') this.src = '{% static "img/user.png" %}';">
             </p>
         </div>
         <div style="clear: both"></div>
     <div class="col-md-4">
-        <div class="main-section-title">Edit</div>
+        <div class="sidebar-profile-button" onclick="location.href='/edit/';">EDIT</div>
     </div>
   </div>
+</div>
 </div>
 {% endblock %}

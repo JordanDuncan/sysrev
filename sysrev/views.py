@@ -92,8 +92,7 @@ def user_logout(request):
 @auth
 def dashboard(request):
     context_dict = { "page_title" : "Dashboard" }
-    researcher = Researcher.objects.get(user=request.user)
-    researcher.lastViewed = datetime.datetime.now()
+    request.user.researcher.lastViewed = datetime.datetime.now()
     return render(request, "dashboard.html", context_dict)
 
 @auth

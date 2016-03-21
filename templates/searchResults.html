@@ -9,33 +9,19 @@
   <div class="row">
     <div class="col-md-12">
         <div class="main-section-title">YOU SEARCHED FOR</div>
-        <div class="text-large" style="margin: -20px 100px 0 0;">[query]</div>
-        <div class="button pull-right" style="margin-top: -50px">SAVE</div>
+        <div class="text-large" style="margin: -20px 100px 0 0;">{{ query }}</div>
+        <!--<div class="button pull-right" style="margin-top: -50px">SAVE</div>-->
     </div>
   </div>
   <div class="row">
     <div class="col-md-12">
         <div class="main-section-title">RESULTS</div>
-        <div class="col-md-6">
-            <b>{{ result_1_title }}</b>
-            <p>{{ result_1_abstract }}</p>
+        {% for item in result_list %}
+        <div class="col-md-12 result-card">
+            <a href="#" class="" data-toggle="collapse" data-target="#abstract-{{ item.paperID }}">{{ item.title }}</a><br>
+            <div id="abstract-{{ item.paperID }}" class="collapse" style="padding: 10px 0 0 10px;"><p>{{ item.abstract }}</p><button class="button button-red pull-right" onclick="window.open('{{ item.paperUrl }}', '_blank')">View Paper</button></div>
         </div>
-        <div class="col-md-6">
-            <b>{{ result_2_title }}</b>
-            <p>{{ result_2_abstract }}</p>
-        </div>
-        <div class="col-md-6">
-            <b>{{ result_3_title }}</b>
-            <p>{{ result_3_abstract }}</p>
-        </div>
-        <div class="col-md-6">
-            <b>{{ result_4_title }}</b>
-            <p>{{ result_4_abstract }}</p>
-        </div>
-        <div class="col-md-6">
-            <b>{{ result_5_title }}</b>
-            <p>{{ result_5_abstract }}</p>
-        </div>
+        {% endfor %}
     </div>
   </div>
 </div>

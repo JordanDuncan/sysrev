@@ -156,7 +156,7 @@ def newSearch(request):
     return render(request, "newSearch.html", context_dict)
 
 @auth
-def searchResults(request):
+def searchResults(request, query_id):
     context_dict = {"page_title": "Search Results"}
     try:
         query = Query.objects.get(queryID=query_id)
@@ -166,17 +166,12 @@ def searchResults(request):
 
     if query:
         result_list = Paper.objects.filter(queryID=query, abstractApproved=False)
-        n = 1
-        print result_list
-        for item in result_list:
-            result_pos_string = str(n)
-            context_dict['result_'+result_pos_string+'_title'] = item.title
-            context_dict['result_'+result_pos_string+'_abstract'] = item.abstract
-            n += 1
-        context_dict['result_list'] = "Query found"
+
+        context_dict['status'] = "Query found"
         context_dict['query'] = query
+        context_dict['result_list'] = result_list
     else:
-        context_dict['result_list'] = "No such Query found"
+        context_dict['status'] = "No such Query found"
     return render(request, "searchResults.html", context_dict)
 
 @auth

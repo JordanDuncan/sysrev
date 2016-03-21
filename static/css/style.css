@@ -201,3 +201,16 @@ textarea, input { outline: none; }
     left: 63px;
     top: -48px;
 }
+
+.result-card {
+    background-color: white;
+    padding: 10px 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+    .result-card a {
+        font-size: 18px;
+        color: #a44242;
+        transition: 0.15s all;
+    }

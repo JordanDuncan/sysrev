@@ -47,7 +47,7 @@ class Paper(models.Model):
     title = models.CharField(max_length=512)
     authors = models.CharField(max_length=512)
     abstract = models.CharField(max_length=4096)
-    publishDate = models.DateField()
+    publishDate = models.DateField(default=None, blank=True, null=True)
     paperUrl = models.URLField()
     documentApproved = models.BooleanField(default = None)
     abstractApproved = models.BooleanField(default = None)

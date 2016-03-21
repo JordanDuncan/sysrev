@@ -21,7 +21,7 @@
                 <img id="sidebar-logo" class="hidden-xs" src="{% static "img/sidebarLogo.png" %}">
                 <div class="sidebar-line hidden-xs"></div>
                 <div id="sidebar-profile-cont">
-                    <img id="sidebar-profile-image" class="profile-image" src="http://lorempixel.com/300/300">
+                    <img id="sidebar-profile-image" class="profile-image" src="/media/{{ user.researcher.picture }}">
                     <div id="sidebar-profile-name"><div>Logged in as</div>{{ user.first_name }} {{ user.last_name }}</div>
                 </div>
                 <div class="sidebar-profile-button">PROFILE</div>

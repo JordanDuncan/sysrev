@@ -20,7 +20,7 @@
                     </div>
                 </div>
             </div>
-            <button class="not" onclick="qb_createString()">cs</button>
+            <button class="button button-red pull-right" onclick="qb_createString()">Search</button>
         </div>
     </div>
     <div class="col-md-4">
@@ -35,11 +35,12 @@
 <script type="text/javascript">
     var qbCount = 1;
 
-    function qb_genInput() {
+    function qb_genInput(textPrefill) {
         qbCount++;
+
         return '<div id="qb-'+ (qbCount) +'">\
                     <div class="qb-in-wrap">\
-                        <input type="text">\
+                        <input type="text" value="' + textPrefill + '">\
                         <button class="and" onclick="qb_and(\''+ (qbCount) +'\')">AND</button>\
                         <button class="or" onclick="qb_or(\''+ (qbCount) +'\')">OR</button>\
                         <button class="not" onclick="qb_not(\''+ (qbCount) +'\')">NOT</button>\
@@ -49,39 +50,62 @@
 
     function qb_and(inId) {
         $('#qb-'+inId).html('<div class="qb-wrap" type="AND">'
-        + qb_genInput() +
+        + qb_genInput($($('#qb-'+inId + ' > .qb-in-wrap').children('input')[0]).val()) +
         '<div class="qb_label">AND <a class="glyphicon glyphicon-remove" href="javascript: qb_clear(\'' + (inId) + '\')"></a></div>'
-        + qb_genInput() +
+        + qb_genInput("") +
         '</div>');
     }
     function qb_or(inId) {
-        $('#qb-'+inId).html('<div class="qb-wrap">'
-        + qb_genInput() +
+        $('#qb-'+inId).html('<div class="qb-wrap" type="OR">'
+        + qb_genInput($($('#qb-'+inId + ' > .qb-in-wrap').children('input')[0]).val()) +
         '<div class="qb_label">OR <a class="glyphicon glyphicon-remove" href="javascript: qb_clear(\'' + (inId) + '\')"></a></div>'
-        + qb_genInput() +
+        + qb_genInput("") +
         '</div>');
     }
     function qb_not(inId) {
-        $('#qb-'+inId).html('<div class="qb-wrap"><div class="qb_label">NOT <a class="glyphicon glyphicon-remove" href="javascript: qb_clear(\'' + (inId) + '\')"></a></div>'
-        + qb_genInput() +
+        $('#qb-'+inId).html('<div class="qb-wrap" type="NOT">'
+        + '<div class="qb-in-wrap"><input type="hidden" value=""></div>' +
+        '<div class="qb_label">NOT <a class="glyphicon glyphicon-remove" href="javascript: qb_clear(\'' + (inId) + '\')"></a></div>'
+        + qb_genInput($($('#qb-'+inId + ' > .qb-in-wrap').children('input')[0]).val()) +
         '</div>');
     }
 
     function qb_clear(inId) {
+        // store top value for restoration
+        console.log($('#qb-'+ inId + ' > .qb-wrap > div > .qb-in-wrap').children('input')[0].value);
+        var topVal = $('#qb-'+ inId + ' > .qb-wrap > div > .qb-in-wrap').children('input')[0].value;
+
         qbCount++;
         $('#qb-'+inId).html('<div class="qb-in-wrap">\
-            <input type="text">\
+            <input type="text" value="' + topVal + '">\
             <button class="and" onclick="qb_and(\''+ (qbCount) +'\')">AND</button>\
             <button class="or" onclick="qb_or(\''+ (qbCount) +'\')">OR</button>\
             <button class="not" onclick="qb_not(\''+ (qbCount) +'\')">NOT</button>\
         </div>').prop('id', 'qb-'+qbCount);
     }
 
+    function qb_jsonOut(ele) {
+        if (ele.attr('class') == 'qb-in-wrap') {
+            // This is just a text field, return the value
+            return ele.children()[0].value;
+        } else if (ele.attr('class') == 'qb-wrap') {
+            // This is another layer, init array for return
+            return [
+                ele.attr('type'),
+                qb_jsonOut($($(ele.children()[0]).children()[0])),
+                qb_jsonOut($($(ele.children()[2]).children()[0]))
+            ];
+        }
+    }
+
+    function qb_tripleToString(arr) {
+        if(typeof arr == "string") return arr;
+        if(arr == undefined) return "";
+        return "(" + qb_tripleToString(arr[1]) + " " + arr[0] + " " + qb_tripleToString(arr[2]) + ")";
+    }
+
     function qb_createString() {
-        var struct = [];
-        $('#qb-main > .qb-main-child').children().each(function () {
-            alert($(this).attr('class')); // "this" is the current element in the loop
-        });
+        console.log(qb_tripleToString(qb_jsonOut($($('#qb-main > .qb-main-child').children()[0]))));
     }
 
 </script>

@@ -9,16 +9,59 @@
   <div class="row">
     <div class="col-md-8">
         <div class="main-section-title">QUERY</div>
+        <div class="col-md-12" id="query">
+            [query]
+        </div>
+        <div class="col-md-6" id="details">
+            <h3>Paper Name</h3>
+            Abstract<br>
+            Abstract<br>
+            Abstract<br>
+            Abstract
+        </div>
+        <div class="col-md-6">
+            <textarea id="notes" class="textarea-full" placeholder="Notes"></textarea>
+        </div>
         <div class="col-md-12">
-
+            <button class="button button-red pull-right">YES</button>
+            <button class="button pull-right" style="margin-right: 10px">NO</button>
+            <button class="button pull-left">SKIP</button>
+            <input type="hidden" id="paperID">
+            <input type="hidden" id="paperTitle">
         </div>
     </div>
     <div class="col-md-4">
         <div class="main-section-title">RECENT REVIEWS</div>
-        <div class="col-md-12">
-            hi
+        <div class="col-md-12" id="recentReviews">
+
         </div>
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+    function review_getNew() {
+        $.get('/ajax/review', function(data){
+            $('#query').text(data.query.queryString);
+            $('#paperID').val(data.paper.paperID);
+            $('#paperTitle').val(data.paper.title);
+            if (data.paper.AbstractApproved) {
+                $('#details').html('<h3>' + data.paper.title + '</h3><a href="' + data.paper.paperUrl + '">Open Paper</a>');
+            } else {
+                $('#details').html('<h3>' + data.paper.title + '</h3>' + data.paper.abstract);
+            }
+
+        });
+    }
+
+    function review_save(decision) {
+        $.post('/ajax/review', {'review': decision, 'paperID': $('#paperID').val()},function(data){
+            if ($("#recentReviews > div").length >= 5) {
+                $("#recentReviews > div:nth-child(5)").remove();
+            }
+            $("#recentReviews").prepend('<p><b>' + $('#paperTitle').val() + '</b><br>' + $('#query').text() + '</p>');
+            review_getNew();
+        });
+    }
+</script>
 {% endblock %}

@@ -145,5 +145,14 @@ def searchResults(request):
 @auth
 def review(request):
     context_dict = { "page_title" : "Review" }
-    return render(request, "review.html", context_dict)
+    from django.db import connection
+    cursor = connection.cursor()
 
+    cursor.execute("SELECT queryID FROM Query WHERE MIN(startDate) AND resolved = FALSE ")
+    firstUnresolvedQuery = cursor.fetchone() #Its the first unresolved query timestamp-wise
+    cursor.execute("SELECT paperID,abstract,paperUrl FROM Paper WHERE MIN(paperID) AND queryID = %s AND (documentApproved = None OR abstractApproved = None)",[firstUnresolvedQuery])
+    paperObject = cursor.execute #The first paper id-wise relative to the given query that has not either abstract or paper being evaluated
+    cursor.execute("SELECT queryString,description FROM Query WHERE queryID = %s",[firstUnresolvedQuery])
+    queryObject = cursor.execute #The query object relative to the query
+    #return render(request, "review.html", context_dict)
+    return HttpResponse('{"query": %s,"paper": %s}',[queryObject],[paperObject])

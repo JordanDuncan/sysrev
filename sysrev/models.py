@@ -70,3 +70,4 @@ class Review(models.Model):
     )
     relevant = models.BooleanField(default = None)
     notes = models.CharField(max_length=4096)
+    time_stamp = models.DateTimeField(auto_now_add=True)

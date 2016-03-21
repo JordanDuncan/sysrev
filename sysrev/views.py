@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.contrib.auth.decorators import login_required
-
+import datetime
 from sysrev.forms import UserForm, UserProfileForm
 
 from sysrev.biopy.get_data import run_query
@@ -92,6 +92,8 @@ def user_logout(request):
 @auth
 def dashboard(request):
     context_dict = { "page_title" : "Dashboard" }
+    researcher = Researcher.objects.get(user=request.user)
+    researcher.lastViewed = datetime.datetime.now()
     return render(request, "dashboard.html", context_dict)
 
 @auth

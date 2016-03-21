@@ -14,14 +14,15 @@
         <center><img id="main-logo" src="{% static "img/sidebarLogo.png" %}"></center>
         <div id="wrap">
             <div class="main-header">
-                <div class="col-md-12">Register</div>
+                <div class="col-md-12">Welcome</div>
             </div>
-
             <div id="inner">
                 {% if registered %}
                 <center><strong>Thank you for registering!</strong>
                 <a href="/dashboard/">Go to SysRev</a><br /></center>
                 {% else %}
+                <div class="col-md-6 login-link"><a href="/login">LOGIN</a></div>
+                <div class="col-md-6 login-link active">REGISTER</div>
                 <form id="user_form" method="post" action="/register/"
                         enctype="multipart/form-data">
 

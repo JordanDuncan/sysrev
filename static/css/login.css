@@ -75,3 +75,18 @@ textarea, input, select {
 #inner {
     padding: 15px;
 }
+
+.login-link {
+    padding-bottom: 10px;
+    text-align: center;
+    font-size: 24px;
+    opacity: 0.5;
+    color: #b64747;
+    font-weight: 300;
+}
+    .login-link.active {
+        opacity: 1;
+    }
+    .login-link a {
+        color: #b64747;
+    }

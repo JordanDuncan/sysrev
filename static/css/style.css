@@ -212,5 +212,6 @@ textarea, input { outline: none; }
     .result-card a {
         font-size: 18px;
         color: #a44242;
+        cursor: pointer; cursor: hand;
         transition: 0.15s all;
     }

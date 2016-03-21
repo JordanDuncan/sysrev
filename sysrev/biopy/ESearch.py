@@ -91,27 +91,3 @@ def spell_check(query):
 
 
 
-if __name__ == '__main__':
-    results = search('(adhd OR addh OR adhs) AND (child OR adolescent) AND (acupuncture)')
-
-    papers = fetch_details(id_list)
-    webenv = 'NCID_1_141103525_165.112.9.37_9001_1458207436_2014848750_0MetA0_S_MegaStore_F_1'
-    querykey = '1'
-    #abstracts = obtain_abstracts(papers)
-    #print abstracts
-    # storeInfo = storeIDs(id_list,webenv,querykey)
-    # ids = fetchIDs(webenv,querykey)
-    # docSummaries = doc_summaries(id_list)
-    count = search_record_count('cancer')
-    #spell_check_info = spell_check('cancer OR feever')
-    # print papers
-    # for i, paper in enumerate(papers):
-    # print("%d) %s" % (i+1, paper['MedlineCitation']))
-    # print("%d) %s" % (i+1, paper['Article']['Abstract']))
-    # Pretty print the first paper in full
-    import json
-
-    for index in range(1):
-        #print(json.dumps(spell_check_info, indent=2, separators=(',', ':')))
-        print(json.dumps(results, indent=2, separators=(',', ':')))
-        # print(json.dumps(papers[index]['MedlineCitation']['Article']['AuthorList'], indent=2, separators=(',', ':')))

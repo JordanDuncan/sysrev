@@ -34,7 +34,7 @@ def run_query(query):
         date_text_complete = ''
         if 'DateCompleted' in paper['MedlineCitation'].keys():
             date_completed = paper['MedlineCitation']['DateCompleted']
-            date_text_complete += date_completed['Day'] + '/' + date_completed['Month'] + '/' + date_completed['Year']
+            date_text_complete += date_completed['Year'] + '-' + date_completed['Month'] + '-' + date_completed['Day']
         else:
             date_text_complete += 'incomplete'
             # date_text_complete = date_completed['Day']+'/'+date_completed['Month']+'/'+date_completed['Year']

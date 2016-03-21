@@ -105,9 +105,9 @@ def newSearch(request):
             n = 0
             for item in result_list:
                 print item
-                new_paper = Paper(paperID=obtained_ids[n],paperUrl=item['Link'],authors=item['Authors'],
-                                  title=item['Article_title'],publishDate=item['Date_created'],
-                                  abstract=item['Abstrct'], queryID=new_query.queryID)
+                new_paper = Paper(paperID=obtained_ids[n],paperUrl=result_list[item]['Link'],authors=result_list[item]['Authors'],
+                                  title=result_list[item]['Article_title'],publishDate=result_list[item]['Date_created'],
+                                  abstract=result_list[item]['Abstract'], queryID=new_query.queryID)
                 new_paper.save()
                 n +=1
 

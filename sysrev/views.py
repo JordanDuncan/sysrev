@@ -123,7 +123,7 @@ def dashboard(request):
     for query in user_queries:
         reviews = Review.objects.filter(query=query, relevant=True)
         for review in reviews:
-            if timezone.make_aware(review.time_stamp, timezone.get_default_timezone()) > timezone.make_aware(request.user.researcher.lastViewed, timezone.get_default_timezone()):
+            if review.time_stamp > timezone.make_aware(request.user.researcher.lastViewed, timezone.get_default_timezone()):
                 relevant.append(review)
                 
     context_dict['new_relevant_reviews'] = relevant            

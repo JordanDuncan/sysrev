@@ -205,6 +205,16 @@ textarea, input { outline: none; }
     .sidebar-menu-item:not(:first-child) {
         margin-top: 10px;
     }
+    .sidebar-menu-item a {
+        color: white;
+        position: relative;
+        transition: 0.15s all;
+    }
+        .sidebar-menu-item a:hover {
+            color: white;
+            right: -10px;
+            transition: 0.15s all;
+        }
 
 
 .cont-image-offset {

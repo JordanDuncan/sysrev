@@ -93,6 +93,30 @@ def user_logout(request):
 def dashboard(request):
     context_dict = { "page_title" : "Dashboard" }
     request.user.researcher.lastViewed = datetime.datetime.now()
+
+    # Create recent review activity
+    recent_reviews = []
+
+    r_r = Review.objects.all().reverse()[:5]
+    for r in r_r:
+        try:
+            ret = {}
+            ret['relevant'] = r.relevant
+            ret['query'] = r.query.queryString
+            ret['name'] = r.researcher.user.first_name + ' ' + r.researcher.user.last_name
+            ret['picture'] = r.researcher.picture
+            ret['title'] = r.paperID.title
+            recent_reviews.append(ret)
+        except:
+            print 'nope'
+
+    context_dict['recent_reviews'] = recent_reviews
+
+    # Get recent queries
+    recent_queries = Query.objects.filter().reverse()[:10]
+
+    context_dict['recent_queries'] = recent_queries
+
     return render(request, "dashboard.html", context_dict)
 
 @auth

@@ -7,7 +7,7 @@ from sysrev.forms import UserForm, UserProfileForm
 
 from sysrev.biopy.get_data import run_query
 from sysrev.models import Paper
-from sysrev.models import Query
+from sysrev.models import Query, Researcher
 
 # Custom login required decorator
 def auth(function):
@@ -95,8 +95,6 @@ def dashboard(request):
     return render(request, "dashboard.html", context_dict)
 
 def newSearch(request):
-
-
     if request.method == 'POST':
         query = request.POST.get('query')
 
@@ -114,10 +112,6 @@ def newSearch(request):
                 n +=1
 
             new_query.save()
-
-
-
-
 
     context_dict = { "page_title" : "Searches" }
 

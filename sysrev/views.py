@@ -116,7 +116,17 @@ def dashboard(request):
     recent_queries = Query.objects.filter().reverse()[:10]
 
     context_dict['recent_queries'] = recent_queries
-
+    
+    user_queries = Query.objects.filter(researcher=request.user.researcher)
+    relevant = []
+    for query in user_queries:
+        reviews = Review.objects.filter(query=query, relevant=True)
+        for review in reviews:
+            if review.time_stamp > request.user.researcher.lastViewed:
+                relevant.append(review)
+                
+    context_dict['new_relevant_reviews'] = relevant            
+    request.user.researcher.lastViewed = datetime.datetime.now()
     return render(request, "dashboard.html", context_dict)
 
 @auth

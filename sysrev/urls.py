@@ -18,4 +18,5 @@ urlpatterns = [
     url(r'^review/$', views.review),
 
     url(r'^ajax/review/$', views.ajax_review),
+    url(r'^ajax/savequery/$', views.ajax_saveQuery),
 ]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

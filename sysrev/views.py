@@ -8,7 +8,7 @@ from sysrev.forms import UserForm, UserProfileForm
 
 from sysrev.biopy.get_data import run_query
 from sysrev.models import Paper
-from sysrev.models import Query, Researcher, Review
+from sysrev.models import Query, Researcher, Review, SavedQuery
 
 # Custom login required decorator
 def auth(function):
@@ -20,7 +20,10 @@ def auth(function):
     return wrapper
 
 def index(request):
-    context_dict = { "page_title" : "Index" }
+    if request.user.is_authenticated():
+        return HttpResponseRedirect("/dashboard/")
+
+    context_dict = { "page_title" : "Login" }
     return render(request, "login.html", context_dict)
 
 def register(request):
@@ -93,7 +96,26 @@ def user_logout(request):
 @auth
 def dashboard(request):
     context_dict = { "page_title" : "Dashboard" }
-    request.user.researcher.lastViewed = datetime.datetime.now()
+    userProfile = Researcher.objects.get(user_id=request.user)
+    userProfile.lastViewed = datetime.datetime.now() - datetime.timedelta(minutes=2)
+    userProfile.save()
+
+    context_dict['new_results'] = []
+    # Get all saved queries
+    sq = SavedQuery.objects.filter(researcher=request.user.researcher)
+    for q in sq:
+        new_query = {
+            "queryID" : q.queryID.queryID,
+            "queryString" : q.queryID.queryString,
+            "paperCount" : 0
+        }
+        reviews = Review.objects.filter(query=q.queryID)
+        for r in reviews:
+            if r.time_stamp > request.user.researcher.lastViewed:
+                new_query['paperCount'] += 1
+
+        if new_query['paperCount'] != 0:
+            context_dict['new_results'].append(new_query)
 
     # Create recent review activity
     recent_reviews = []
@@ -118,12 +140,13 @@ def dashboard(request):
 
     context_dict['recent_queries'] = recent_queries
     
-    user_queries = Query.objects.filter(researcher=request.user.researcher)
+    user_queries = SavedQuery.objects.filter(researcher=request.user.researcher)
     relevant = []
     for query in user_queries:
-        reviews = Review.objects.filter(query=query, relevant=True)
+        reviews = Review.objects.filter(query=query.queryID, relevant=True)
         for review in reviews:
-            if review.time_stamp > timezone.make_aware(request.user.researcher.lastViewed, timezone.get_default_timezone()):
+
+            if review.time_stamp > request.user.researcher.lastViewed:
                 relevant.append(review)
                 
     context_dict['new_relevant_reviews'] = relevant            
@@ -135,6 +158,7 @@ def profile(request):
     context_dict = { "page_title" : "Profile" }
     return render(request, "profile.html", context_dict)
 
+@auth
 def edit(request):
     edited = False
 
@@ -187,7 +211,6 @@ def newSearch(request):
             new_query = Query(queryString=query, result=obtained_ids, poolSize=20, researcher=request.user.researcher)
             new_query.save()
 
-            print new_query.queryID
             n = 0
             for key, item in result_list.iteritems():
                 if item['Date_completed'] == 'incomplete':
@@ -229,12 +252,12 @@ def newSearch(request):
 
     context_dict = {"page_title": "Searches"}
 
-    query_list = Query.objects.filter(researcher=request.user.researcher).reverse()
+    query_list = SavedQuery.objects.filter(researcher=request.user.researcher).reverse()
     saved_list = []
 
     for q in query_list:
-        sl = { 'query' : q }
-        sl['size'] = len(Paper.objects.filter(queryID=q, documentApproved=True))
+        sl = { 'query' : q.queryID }
+        sl['size'] = len(Paper.objects.filter(queryID=q.queryID, documentApproved=True))
         saved_list.append(sl)
 
     context_dict['saved_list'] = saved_list
@@ -249,13 +272,22 @@ def searchResults(request, query_id):
     except Query.DoesNotExist:
         raise Http404("Query does not exist")
 
-
     if query:
         result_list = Paper.objects.filter(queryID=query, documentApproved=True)
 
         context_dict['status'] = "Query found"
         context_dict['query'] = query
         context_dict['result_list'] = result_list
+
+        # check if the user has saved the query
+        context_dict['saved'] = True
+        try:
+            sq = SavedQuery.objects.get(
+                queryID=query,
+                researcher=request.user.researcher
+            )
+        except SavedQuery.DoesNotExist:
+            context_dict['saved'] = False
     else:
         context_dict['status'] = "No such Query found"
     return render(request, "searchResults.html", context_dict)
@@ -263,24 +295,7 @@ def searchResults(request, query_id):
 @auth
 def review(request):
     context_dict = { "page_title" : "Review" }
-
     return render(request, "review.html", context_dict)
-
-    print paper
-
-    return HttpResponse(paper.paperID)
-
-    from django.db import connection
-    cursor = connection.cursor()
-
-    cursor.execute("SELECT queryID FROM Query WHERE MIN(startDate) AND resolved = FALSE ")
-    firstUnresolvedQuery = cursor.fetchone() #Its the first unresolved query timestamp-wise
-    cursor.execute("SELECT paperID,abstract,paperUrl FROM Paper WHERE MIN(paperID) AND queryID = %s AND (documentApproved = None OR abstractApproved = None)",[firstUnresolvedQuery])
-    paperObject = cursor.execute #The first paper id-wise relative to the given query that has not either abstract or paper being evaluated
-    cursor.execute("SELECT queryString,description FROM Query WHERE queryID = %s",[firstUnresolvedQuery])
-    queryObject = cursor.execute #The query object relative to the query
-    #return render(request, "review.html", context_dict)
-    return HttpResponse('{"query": %s,"paper": %s}',[queryObject],[paperObject])
 
 def ajax_review(request):
     if request.method == "GET":
@@ -351,3 +366,35 @@ def ajax_review(request):
 
         else:
             return JsonResponse({"status" : "error", "error" : "paperID post parameter not set or incorrect"})
+
+@auth
+def ajax_saveQuery(request):
+    if request.method == "POST":
+        queryID = request.POST.get('queryID')
+
+        if queryID:
+            #Check if query id is valid
+            try:
+                query = Query.objects.get(queryID=queryID)
+            except Query.DoesNotExist:
+                raise JsonResponse({"status" : "error", "error" : "Query does not exist."})
+
+            try:
+                sq = SavedQuery.objects.get(
+                    queryID=query,
+                    researcher=request.user.researcher
+                )
+            except SavedQuery.DoesNotExist:
+                sq = SavedQuery(
+                    queryID=query,
+                    researcher=request.user.researcher
+                )
+                sq.save()
+
+                return JsonResponse({"status" : "success", "set" : True})
+
+            sq.delete()
+            return JsonResponse({"status" : "success", "set" : False})
+
+        else:
+            return JsonResponse({"status" : "error", "error" : "queryID post parameter not set or incorrect"})

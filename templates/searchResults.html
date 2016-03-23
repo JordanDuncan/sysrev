@@ -9,8 +9,12 @@
   <div class="row">
     <div class="col-md-12">
         <div class="main-section-title">YOU SEARCHED FOR</div>
-        <div class="text-large" style="margin: -20px 100px 0 0;">{{ query }}</div>
-        <!--<div class="button pull-right" style="margin-top: -50px">SAVE</div>-->
+        <div class="text-large" style="margin: -20px 100px 0 0;">{{ query.queryString }}</div>
+        {% if saved %}
+        <div class="button pull-right" id="saveButton" style="margin-top: -50px" onclick="saveQuery('{{ query.queryID }}')">SAVED</div>
+        {% else %}
+        <div class="button button-red pull-right" id="saveButton" style="margin-top: -50px" onclick="saveQuery('{{ query.queryID }}')">SAVE</div>
+        {% endif %}
     </div>
   </div>
   <div class="row">
@@ -35,4 +39,18 @@
     </div>
   </div>
 </div>
+<script type="text/javascript">
+    function saveQuery(queryID) {
+        $.post( "/ajax/savequery/", {'queryID' : queryID, 'csrfmiddlewaretoken' : '{{ csrf_token }}'}, function( data ) {
+            if (data.status == "success") {
+                $('#saveButton').toggleClass('button-red');
+                if (data.set) {
+                    $('#saveButton').text('SAVED');
+                } else {
+                    $('#saveButton').text('SAVE');
+                }
+            }
+        });
+    }
+</script>
 {% endblock %}

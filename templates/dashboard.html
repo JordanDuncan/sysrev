@@ -9,26 +9,21 @@
   </div>
   <div class="row">
     <div class="col-md-8">
-        <div class="main-section-title">WHILE YOU WERE GONE...</div>
-        <div class="col-md-6">
-            <p>
-                <b>1 new result</b><br>
-                diabetes AND obesity AND insulin
-            </p>
-        </div>
-        <div class="col-md-6">
-            <p>
-                <b>1 new result</b><br>
-                diabetes AND obesity AND insulin
-            </p>
-        </div>
-        <div class="col-md-6">
-            <p>
-                <b>1 new result</b><br>
-                diabetes AND obesity AND insulin
-            </p>
-        </div>
-        <div style="clear: both"></div>
+        {% if new_results|length > 0 %}
+            <div class="main-section-title">WHILE YOU WERE GONE...</div>
+            {% for q in new_results %}
+                <div class="col-md-6">
+                    <p>
+                        <a href="/search/{{ q.queryID }}">
+                        <b>{{ q.paperCount }} new result</b></a><br>
+                        {{ q.queryString }}
+                    </p>
+                </div>
+            {% endfor %}
+
+            <div style="clear: both"></div>
+        {% endif %}
+
 
         <div class="main-section-title">REVIEW ACTIVITY</div>
 

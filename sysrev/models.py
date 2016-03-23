@@ -41,6 +41,13 @@ class Query(models.Model):
     def __unicode__(self):
         return self.queryString
 
+class SavedQuery(models.Model):
+    queryID = models.ForeignKey(Query)
+    researcher = models.ForeignKey(Researcher) #The user that made the request
+
+    def __unicode__(self):
+        return self.researcher + " - " + self.queryID
+
 class Paper(models.Model):
     paperID = models.CharField(max_length=12,unique=True,primary_key=True) #Could change this to the API's document id, I do not know the format and/or constraint of that
     queryID = models.ForeignKey(Query) #Query foreign key

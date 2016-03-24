@@ -7,7 +7,7 @@ Systematic Review Application (UOG WAD2)
 
 	stesesia       Stefano Sesia     2132699S
 
-	eerika         Eerika Haajanen   xxxxxxxH
+	eerika         Eerika Haajanen   2139933H
   
 Lab Thursday 2-4 Group D
   

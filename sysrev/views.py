@@ -294,26 +294,48 @@ def searchResults(request, query_id):
 
 @auth
 def review(request):
-    context_dict = { "page_title" : "Review" }
+    context_dict = { "page_title" : "Review", "saved_queries" : [] }
+
+    sq = SavedQuery.objects.filter(researcher=request.user.researcher)
+
+    for q in sq:
+        context_dict['saved_queries'].append(q.queryID)
+
     return render(request, "review.html", context_dict)
 
 def ajax_review(request):
     if request.method == "GET":
-        paper = Paper.objects.filter(documentApproved=False).order_by('?').first()
+        queryID = request.GET.get('queryID')
+        type = request.GET.get('type')
 
-        paper_return = {
-            "paperID" : paper.paperID,
-            "title" : paper.title,
-            "queryID" : paper.queryID.queryID,
-            "queryString" : paper.queryID.queryString,
-        }
+        if queryID:
+            if type:
+                if type == "document":
+                    paper = Paper.objects.filter(queryID__queryID=queryID, abstractApproved=True, documentApproved=False).order_by('?').first()
+                elif type == "abstract":
+                    paper = Paper.objects.filter(queryID__queryID=queryID, abstractApproved=False, documentApproved=False).order_by('?').first()
+                else:
+                    return JsonResponse({"status" : "error", "error" : "type incorrect"})
 
-        if paper.abstractApproved == False:
-            paper_return['abstract'] = paper.abstract
+                if paper:
+                    paper_return = {
+                        "paperID" : paper.paperID,
+                        "title" : paper.title,
+                        "queryID" : paper.queryID.queryID,
+                        "queryString" : paper.queryID.queryString,
+                    }
+
+                    if paper.abstractApproved == False:
+                        paper_return['abstract'] = paper.abstract
+                    else:
+                        paper_return['paperUrl'] = paper.paperUrl
+
+                    return JsonResponse(paper_return)
+                else:
+                    return JsonResponse({"status" : "error", "error" : "No Papers."})
         else:
-            paper_return['paperUrl'] = paper.paperUrl
+            return JsonResponse({"status" : "error", "error" : "queryID not set"})
 
-        return JsonResponse(paper_return)
     elif request.method == "POST":
         paperID = request.POST.get('paperID')
         relevantStr = request.POST.get('relevant')

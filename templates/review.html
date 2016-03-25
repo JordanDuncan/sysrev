@@ -10,19 +10,21 @@
     <div class="col-md-8">
         <div class="main-section-title">QUERY</div>
         <div class="col-md-12" id="query">
-            [query]
+            <select id="select">
+                {% for q in saved_queries %}
+                    <option value="{{ q.queryID }}">{{ q.queryString }}</option>
+                {% endfor %}
+            </select><br>
+            <input id="r_a" type="radio" name="type" value="abstract" onchange="review_getNew()" checked> <label for="r_a">Abstract</label><br>
+            <input id="r_d" type="radio" name="type" value="document" onchange="review_getNew()"> <label for="r_d">Document</label><br>
         </div>
         <div class="col-md-12" id="details">
-            <h3>Paper Name</h3>
-            Abstract<br>
-            Abstract<br>
-            Abstract<br>
-            Abstract
+
         </div>
         <div class="col-md-12">
             <textarea id="notes" class="textarea-full" placeholder="Notes"></textarea>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-12" id="buttons">
             <button class="button button-red pull-right" onclick="review_save('1')">YES</button>
             <button class="button pull-right" onclick="review_save('0')" style="margin-right: 10px">NO</button>
             <button class="button pull-left" onclick="review_getNew()">SKIP</button>
@@ -41,8 +43,18 @@
 
 <script type="text/javascript">
     function review_getNew() {
-        $.get('/ajax/review', function(data){
-            $('#query').text(data.queryString);
+        $.get('/ajax/review', {'queryID' : $('#select').val(), 'type': $("#query input[type='radio']:checked").val()}, function(data){
+            if (data.status && data.status == "error"){
+                $('#buttons').hide();
+                //alert(data.error);
+                $('#paperID').val("");
+                $('#paperTitle').val("");
+                $('#details').html('<h3>No Papers</h3><button class="button pull-left" onclick="review_getNew()">TRY AGAIN</button>');
+                return;
+            }
+
+            $('#buttons').show();
+
             $('#paperID').val(data.paperID);
             $('#paperTitle').val(data.title);
             if (data.paperUrl) {
@@ -58,11 +70,19 @@
             if ($("#recentReviews > div").length >= 5) {
                 $("#recentReviews > div:nth-child(5)").remove();
             }
-            $("#recentReviews").prepend('<p><b>' + $('#paperTitle').val() + '</b><br>' + $('#query').text() + '</p>');
+            $("#recentReviews").prepend('<p><b>' + $('#paperTitle').val() + '</b><br>' + $("#select option[value='" + $('#select').val() + "']").text() + '</p>');
             review_getNew();
         });
     }
 
     review_getNew();
+
+    $('#select').change(function(){
+        review_getNew();
+    });
+
+    $("#select option[value='abstract']").change(function(){
+        review_getNew();
+    });
 </script>
 {% endblock %}

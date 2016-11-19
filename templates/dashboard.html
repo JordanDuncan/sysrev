@@ -4,12 +4,12 @@
 <div class="container-fluid">
   <div class="row">
     <div class="main-header">
-        <div class="col-md-12">Hi {{ user.first_name }}!</div>
+        <div class="col-md-12">Hi USer!</div>
     </div>
   </div>
   <div class="row">
     <div class="col-md-8">
-        {% if new_results|length > 0 %}
+        <!-- {% if new_results|length > 0 %}
             <div class="main-section-title">WHILE YOU WERE GONE...</div>
             {% for q in new_results %}
                 <div class="col-md-6">
@@ -23,11 +23,11 @@
 
             <div style="clear: both"></div>
         {% endif %}
-
+ -->
 
         <div class="main-section-title">REVIEW ACTIVITY</div>
 
-        {% for r in recent_reviews %}
+<!--         {% for r in recent_reviews %}
         <div class="col-md-6">
             <img class="profile-image" src="/media/{{ r.picture }}" onerror="if (this.src != '{% static "img/user.png" %}') this.src = '{% static "img/user.png" %}';">
             <div class="cont-image-offset">
@@ -37,16 +37,16 @@
             </div>
         </div>
         {% endfor %}
-
+ -->
     </div>
     <div class="col-md-4">
         <div class="main-section-title">RECENT QUERIES</div>
-        {% for q in recent_queries %}
+<!--         {% for q in recent_queries %}
             <p>
                 <a href="/search/{{ q.queryID }}">{{ q.queryString }}</a>
             </p>
         {% endfor %}
-    </div>
+ -->    </div>
   </div>
 </div>
 {% endblock %}

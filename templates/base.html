@@ -22,15 +22,10 @@
                 <div class="sidebar-line hidden-xs"></div>
                 <div id="sidebar-profile-cont">
                     <img id="sidebar-profile-image" class="profile-image" src="/media/{{ user.researcher.picture }}" onerror="if (this.src != '{% static "img/user.png" %}') this.src = '{% static "img/user.png" %}';">
-                    <div id="sidebar-profile-name"><div>Logged in as</div>{{ user.first_name }} {{ user.last_name }}</div>
+                    <div id="sidebar-profile-name"><div>Logged in as</div>Test User</div>
                 </div>
-                <div class="sidebar-profile-button" onclick="location.href='/profile/';">PROFILE</div>
-                <div class="sidebar-profile-button" onclick="location.href='/logout/';">LOG OUT</div>
                 <div class="sidebar-line"></div>
-                <div class="sidebar-menu-item"><a href="/dashboard">Dashboard</a></div>
-                <div class="sidebar-menu-item"><a href="/search">Search</a></div>
-                <div class="sidebar-menu-item"><a href="/review">Review</a></div>
-            </div>
+                 </div>
         </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
